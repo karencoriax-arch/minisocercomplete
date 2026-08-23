@@ -1,16 +1,35 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./mobile.css";
 
 export const metadata: Metadata = {
   title: "Mini Soccer Complete",
+  applicationName: "Mini Soccer Complete",
   description: "Fútbol arcade 4v4, 5v5 y 6v6 con inteligencia colectiva, torneos, selecciones, clubes y modo temporada.",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Mini Soccer Complete",
+  },
   other: {
     "codex-preview": "development",
+    "mobile-web-app-capable": "yes",
   },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
+  themeColor: "#071008",
 };
 
 export default function RootLayout({
