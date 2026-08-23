@@ -27,9 +27,9 @@ const checks=[
   [match.includes("PUBLIC_FORMATS:PublicMatchFormat[]=[3,4]"),"3v3/4v4 public formats"],
   [pass.includes("PassFormat = 3|4|5|6"),"3v3 pass physics support"],
   [ai.includes("coneHalfAngleDegrees:{3:40,4:38"),"3v3 pass assist support"],
-  [version.includes('GAME_VERSION = "1.2.0"'),"v1.2.0"],
+  [version.includes('GAME_VERSION = "1.2.1"'),"v1.2.1"],
   [joystick.includes("msc-mobile-stick")&&joystick.includes("msc-mobile-hud-v2"),"stable analog HUD controller"],
   [css.includes("mobile-hud-editing")&&css.includes("orientation:portrait"),"editable HUD and landscape gate"],
 ];
 for(const [ok,label] of checks)if(!ok)throw new Error(`Mobile v1.2 verification failed: ${label}`);
-console.log("Mini Soccer Complete v1.2.0 mobile verification passed.");
+console.log("Mini Soccer Complete v1.2 base verification passed for v1.2.1.");
