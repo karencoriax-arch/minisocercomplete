@@ -5,6 +5,12 @@ button,canvas{touch-action:manipulation}
 .game-screen canvas{touch-action:none;user-select:none;-webkit-user-select:none}
 .touch-controls,.touch-controls *{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 
+@media (hover:none) and (pointer:coarse){
+  button,.primary,.ghost,.icon-button,select{min-height:44px}
+  .mode-card:hover,.competition-grid>button:hover,.active-campaign-card:hover,.primary:hover{transform:none}
+  .mode-card:active,.competition-grid>button:active,.active-campaign-card:active{filter:brightness(.96)}
+}
+
 @media (max-width:900px){
   .game-screen{height:100dvh;min-height:100dvh;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
   .game-screen canvas{width:min(100vw,calc(100dvh * 1.765))!important;max-width:100vw;max-height:100dvh;height:auto;object-fit:contain}
@@ -12,12 +18,12 @@ button,canvas{touch-action:manipulation}
   .touch-controls .dpad,.touch-controls .touch-actions{pointer-events:auto}
   .dpad{width:128px!important;height:128px!important;position:relative;display:grid!important;grid-template-columns:repeat(3,1fr)!important;grid-template-rows:repeat(3,1fr)!important;border-radius:50%;padding:7px;background:radial-gradient(circle at 50% 50%,rgba(217,255,69,.13),rgba(4,10,7,.72) 58%,rgba(255,255,255,.08) 60%,rgba(3,8,5,.78));border:1px solid rgba(255,255,255,.18);box-shadow:0 10px 28px rgba(0,0,0,.4);backdrop-filter:blur(8px)}
   .dpad:after{content:"";position:absolute;left:50%;top:50%;width:32px;height:32px;translate:-50% -50%;border-radius:50%;background:rgba(217,255,69,.16);border:1px solid rgba(217,255,69,.42);pointer-events:none}
-  .dpad button{width:42px;height:42px;border-radius:50%!important;align-self:center;justify-self:center;font-size:16px;font-weight:950;border:1px solid rgba(255,255,255,.28)!important;background:rgba(7,16,9,.76)!important;box-shadow:inset 0 0 0 1px rgba(217,255,69,.08),0 4px 12px rgba(0,0,0,.34);touch-action:none!important}
+  .dpad button{width:42px;height:42px;min-height:42px;border-radius:50%!important;align-self:center;justify-self:center;font-size:16px;font-weight:950;border:1px solid rgba(255,255,255,.28)!important;background:rgba(7,16,9,.76)!important;box-shadow:inset 0 0 0 1px rgba(217,255,69,.08),0 4px 12px rgba(0,0,0,.34);touch-action:none!important}
   .dpad button:active{background:rgba(217,255,69,.9)!important;color:#071008!important;transform:scale(.94)}
   .touch-actions{grid-template-columns:repeat(2,60px)!important;grid-auto-rows:60px;gap:10px!important;align-items:center}
-  .touch-actions button{width:60px!important;height:60px!important;border-radius:50%!important;border:1px solid rgba(255,255,255,.3)!important;background:rgba(7,16,9,.8)!important;color:#fff!important;font-size:10px!important;font-weight:950!important;letter-spacing:.04em;box-shadow:0 7px 18px rgba(0,0,0,.34);backdrop-filter:blur(8px);touch-action:none!important}
+  .touch-actions button{width:60px!important;height:60px!important;min-height:60px;border-radius:50%!important;border:1px solid rgba(255,255,255,.3)!important;background:rgba(7,16,9,.8)!important;color:#fff!important;font-size:10px!important;font-weight:950!important;letter-spacing:.04em;box-shadow:0 7px 18px rgba(0,0,0,.34);backdrop-filter:blur(8px);touch-action:none!important}
   .touch-actions button:active{transform:scale(.94);filter:brightness(1.15)}
-  .touch-actions .kick{width:72px!important;height:72px!important;margin:-6px;background:rgba(217,255,69,.94)!important;color:#071008!important;border-color:rgba(217,255,69,.98)!important;box-shadow:0 0 0 3px rgba(217,255,69,.12),0 8px 22px rgba(0,0,0,.4)}
+  .touch-actions .kick{width:72px!important;height:72px!important;min-height:72px;margin:-6px;background:rgba(217,255,69,.94)!important;color:#071008!important;border-color:rgba(217,255,69,.98)!important;box-shadow:0 0 0 3px rgba(217,255,69,.12),0 8px 22px rgba(0,0,0,.4)}
   .scoreboard{top:max(6px,env(safe-area-inset-top));transform:translateX(-50%) scale(.9);transform-origin:top center}
   .player-status{left:max(8px,env(safe-area-inset-left));top:max(56px,calc(env(safe-area-inset-top) + 50px));bottom:auto!important;width:132px!important;padding:7px 9px!important}
   .power-bar{bottom:max(12px,env(safe-area-inset-bottom))!important;width:160px!important;pointer-events:none}
@@ -41,10 +47,10 @@ button,canvas{touch-action:manipulation}
 
 @media (max-height:430px) and (orientation:landscape){
   .dpad{width:112px!important;height:112px!important;padding:5px}
-  .dpad button{width:36px;height:36px;font-size:14px}
+  .dpad button{width:36px;height:36px;min-height:36px;font-size:14px}
   .touch-actions{grid-template-columns:repeat(2,52px)!important;grid-auto-rows:52px;gap:8px!important}
-  .touch-actions button{width:52px!important;height:52px!important}
-  .touch-actions .kick{width:62px!important;height:62px!important}
+  .touch-actions button{width:52px!important;height:52px!important;min-height:52px}
+  .touch-actions .kick{width:62px!important;height:62px!important;min-height:62px}
   .scoreboard{transform:translateX(-50%) scale(.76)}
   .player-status{top:max(48px,calc(env(safe-area-inset-top) + 42px));width:118px!important}
 }
