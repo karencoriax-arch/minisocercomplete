@@ -4,13 +4,14 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Mini Soccer Complete",
     short_name: "Mini Soccer",
-    description: "Fútbol arcade 4v4, 5v5 y 6v6 con controles táctiles, torneos y temporada.",
+    description: "Fútbol arcade móvil 3v3 y 4v4 con joystick analógico, HUD configurable, torneos y temporada.",
     start_url: "/",
     scope: "/",
-    display: "standalone",
+    display: "fullscreen",
     background_color: "#030705",
     theme_color: "#071008",
     orientation: "landscape",
+    categories: ["games", "sports"],
     icons: [
       {
         src: "/favicon.svg",

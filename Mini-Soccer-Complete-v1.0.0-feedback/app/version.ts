@@ -1,4 +1,4 @@
-export const GAME_VERSION = "1.1.1" as const;
+export const GAME_VERSION = "1.2.0" as const;
 
 export const GAME_TITLE = "Mini Soccer Complete" as const;
 
@@ -46,8 +46,8 @@ export const INITIAL_RELEASE = {
         ["Perfil del jugador.", "Player profile."],
         ["Nombre personalizado.", "Custom name."],
         ["Configuración inicial de las competiciones.", "Initial competition setup."],
-        ["Formato fijado durante cada torneo.", "Format locked for each tournament."],
-        ["Dificultad fijada durante cada torneo.", "Difficulty locked for each tournament."],
+        ["Formato fijado durante cada torneo.", "Format locked during each tournament."],
+        ["Dificultad fijada durante cada torneo.", "Difficulty locked during each tournament."],
       ],
     },
     {
