@@ -6,12 +6,12 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "mobile:prepare": "node scripts/mobile-v1.2-transform.mjs",
+    "mobile:prepare": "node scripts/mobile-v1.2-transform.mjs && node scripts/mobile-v1.2-followup.mjs",
     "dev": "npm run mobile:prepare && next dev",
     "prebuild": "npm run mobile:prepare",
     "build": "next build",
     "start": "next start",
-    "test": "node --test tests/rendered-html.test.mjs && node --test tests/ui-contract.test.mjs && node --experimental-strip-types --test tests/release-version.test.mjs && node --experimental-strip-types --test tests/replay-system.test.mjs && node --experimental-strip-types --test tests/input-manager.test.mjs && node --experimental-strip-types --test tests/game-state.test.mjs && node --experimental-strip-types --test tests/graphics-settings.test.mjs && node --experimental-strip-types --test tests/game-ai.test.mjs && node --experimental-strip-types --test tests/pass-system.test.mjs && node --experimental-strip-types --test tests/match-config.test.mjs && node --experimental-strip-types --test tests/gameplay-polish.test.mjs && node --experimental-strip-types --test tests/tournament-engine.test.mjs && node --experimental-strip-types --test tests/feedback-system.test.mjs && npm run test:simulation",
+    "test": "npm run mobile:prepare && node --test tests/rendered-html.test.mjs && node --test tests/ui-contract.test.mjs && node --experimental-strip-types --test tests/release-version.test.mjs && node --experimental-strip-types --test tests/replay-system.test.mjs && node --experimental-strip-types --test tests/input-manager.test.mjs && node --experimental-strip-types --test tests/game-state.test.mjs && node --experimental-strip-types --test tests/graphics-settings.test.mjs && node --experimental-strip-types --test tests/game-ai.test.mjs && node --experimental-strip-types --test tests/pass-system.test.mjs && node --experimental-strip-types --test tests/match-config.test.mjs && node --experimental-strip-types --test tests/gameplay-polish.test.mjs && node --experimental-strip-types --test tests/tournament-engine.test.mjs && node --experimental-strip-types --test tests/feedback-system.test.mjs && npm run test:simulation",
     "test:simulation": "node --experimental-strip-types scripts/simulate-difficulties.mjs && node --experimental-strip-types scripts/simulate-formats.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
