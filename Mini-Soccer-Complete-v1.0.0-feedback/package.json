@@ -1,12 +1,12 @@
 {
   "name": "mini-soccer-complete",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
   },
   "scripts": {
-    "mobile:prepare": "node scripts/mobile-v1.2-transform.mjs && node scripts/mobile-v1.2-followup.mjs",
+    "mobile:prepare": "node scripts/mobile-v1.2-transform.mjs && node scripts/mobile-v1.2-followup.mjs && node scripts/mobile-v1.2.1-final.mjs",
     "dev": "npm run mobile:prepare && next dev",
     "prebuild": "npm run mobile:prepare",
     "build": "next build",
