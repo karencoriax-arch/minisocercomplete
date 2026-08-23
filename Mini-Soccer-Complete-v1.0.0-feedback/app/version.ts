@@ -1,4 +1,4 @@
-export const GAME_VERSION = "1.2.0" as const;
+export const GAME_VERSION = "1.2.1" as const;
 
 export const GAME_TITLE = "Mini Soccer Complete" as const;
 
