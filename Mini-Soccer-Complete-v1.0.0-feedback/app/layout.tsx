@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./mobile.css";
+import MobileJoystick from "./mobile-joystick";
 
 export const metadata: Metadata = {
   title: "Mini Soccer Complete",
@@ -39,7 +40,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        {children}
+        <MobileJoystick />
+      </body>
     </html>
   );
 }
