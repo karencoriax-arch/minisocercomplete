@@ -6,11 +6,11 @@ import { GAME_TITLE, GAME_VERSION, INITIAL_RELEASE } from "../app/version.ts";
 const page = readFileSync(new URL("../app/page.tsx", import.meta.url), "utf8");
 const settings = readFileSync(new URL("../app/settings-menu.tsx", import.meta.url), "utf8");
 
-test("v1.1.0 mantiene la versión centralizada", () => {
+test("v1.1.1 mantiene la versión centralizada", () => {
   assert.equal(GAME_TITLE, "Mini Soccer Complete");
-  assert.equal(GAME_VERSION, "1.1.0");
-  assert.doesNotMatch(page, /["'`]1\.1\.0["'`]/);
-  assert.doesNotMatch(settings, /["'`]1\.1\.0["'`]/);
+  assert.equal(GAME_VERSION, "1.1.1");
+  assert.doesNotMatch(page, /["'`]1\.1\.1["'`]/);
+  assert.doesNotMatch(settings, /["'`]1\.1\.1["'`]/);
 });
 
 test("inicio, carga y configuración leen la constante global", () => {
