@@ -6,7 +6,7 @@ import MobileJoystick from "./mobile-joystick";
 export const metadata: Metadata = {
   title: "Mini Soccer Complete",
   applicationName: "Mini Soccer Complete",
-  description: "Fútbol arcade 4v4, 5v5 y 6v6 con inteligencia colectiva, torneos, selecciones, clubes y modo temporada.",
+  description: "Fútbol arcade móvil 3v3 y 4v4 con inteligencia colectiva, torneos, selecciones, clubes y modo temporada.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
