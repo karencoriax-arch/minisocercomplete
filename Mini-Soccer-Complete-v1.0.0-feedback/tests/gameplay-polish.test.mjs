@@ -46,8 +46,8 @@ test("el cambio automático distingue receptor, pelota libre y defensa manual", 
 });
 
 test("las canchas crecieron por formato sin alterar la identidad relativa", () => {
-  assert.deepEqual([MATCH_FORMATS[4].pitchWidth, MATCH_FORMATS[5].pitchWidth, MATCH_FORMATS[6].pitchWidth], [1512, 1687, 1898]);
-  assert.deepEqual([MATCH_FORMATS[4].pitchHeight, MATCH_FORMATS[5].pitchHeight, MATCH_FORMATS[6].pitchHeight], [821, 899, 994]);
+  assert.deepEqual([MATCH_FORMATS[3].pitchWidth, MATCH_FORMATS[4].pitchWidth, MATCH_FORMATS[5].pitchWidth, MATCH_FORMATS[6].pitchWidth], [1320, 1512, 1687, 1898]);
+  assert.deepEqual([MATCH_FORMATS[3].pitchHeight, MATCH_FORMATS[4].pitchHeight, MATCH_FORMATS[5].pitchHeight, MATCH_FORMATS[6].pitchHeight], [740, 821, 899, 994]);
   assert.ok(MATCH_FORMATS[4].transitionTempo > MATCH_FORMATS[5].transitionTempo && MATCH_FORMATS[5].transitionTempo > MATCH_FORMATS[6].transitionTempo);
 });
 
@@ -92,7 +92,7 @@ test("la banda sonora contiene cuatro temas originales completos y rotación sin
 });
 
 test("80 simulaciones CPU vs CPU por formato quedan dentro del rango arcade objetivo", () => {
-  for (const format of [4, 5, 6]) {
+  for (const format of [3, 4, 5, 6]) {
     const rng = seededRandom(format * 9_917);
     let goals = 0, shots = 0, saves = 0, blocks = 0;
     for (let match = 0; match < 80; match++) {

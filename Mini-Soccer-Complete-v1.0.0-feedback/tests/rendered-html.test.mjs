@@ -1,33 +1,15 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 
-const developmentPreviewMeta =
-  /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
+const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
 
-test("renders development preview metadata", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  const response = await worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
-
-  assert.equal(response.status, 200);
-  assert.match(
-    response.headers.get("content-type") ?? "",
-    /^text\/html\b/i,
-  );
-  assert.match(await response.text(), developmentPreviewMeta);
+test("Next layout conserva metadata web y móvil requerida", () => {
+  assert.match(layout, /title:\s*["']Mini Soccer Complete["']/);
+  assert.match(layout, /applicationName:\s*["']Mini Soccer Complete["']/);
+  assert.match(layout, /manifest:\s*["']\/manifest\.webmanifest["']/);
+  assert.match(layout, /["']codex-preview["']:\s*["']development["']/);
+  assert.match(layout, /["']mobile-web-app-capable["']:\s*["']yes["']/);
+  assert.match(layout, /viewportFit:\s*["']cover["']/);
+  assert.match(layout, /userScalable:\s*false/);
 });

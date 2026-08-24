@@ -80,7 +80,8 @@ test("el cliente ejecuta un INSERT sin SELECT ni credenciales privilegiadas", ()
   assert.match(system, /from\("feedback"\)\.insert\(payload\)/);
   assert.doesNotMatch(system, /\.select\s*\(/);
   assert.doesNotMatch(`${system}\n${client}`, /service_role|database password|postgres password/i);
-  assert.match(client, /VITE_SUPABASE_PUBLISHABLE_KEY/);
+  assert.match(client, /NEXT_PUBLIC_SUPABASE_URL/);
+  assert.match(client, /NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY/);
   assert.match(modal, /maxLength=\{2000\}/);
   assert.match(modal, /isSubmitting/);
 });
