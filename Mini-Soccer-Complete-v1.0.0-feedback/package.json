@@ -6,7 +6,7 @@
     "node": ">=22.13.0"
   },
   "scripts": {
-    "mobile:prepare": "node scripts/mobile-v1.2-transform.mjs && node scripts/mobile-v1.2-followup.mjs && node scripts/mobile-v1.2.1-final.mjs && node scripts/v2-transform.mjs",
+    "mobile:prepare": "node scripts/mobile-v1.2-transform.mjs && node scripts/mobile-v1.2-followup.mjs && node scripts/mobile-v1.2.1-final.mjs && node scripts/v2-transform-final.mjs",
     "dev": "npm run mobile:prepare && next dev",
     "prebuild": "npm run mobile:prepare && node --experimental-strip-types --test tests/economy-v2.test.mjs && node --experimental-strip-types --test tests/release-version.test.mjs",
     "build": "next build",
