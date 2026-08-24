@@ -13,6 +13,7 @@ const fixes=[
   ["','autosave boosts\");", "',\"autosave boosts\");"],
   ["','game boost props\");", "',\"game boost props\");"],
   ["','result reward prop\");", "',\"result reward prop\");"],
+  ['id:\\`${mode}-\\${completedCup.state.createdAt}\\`', 'id:\\`\\${mode}-\\${completedCup.state.createdAt}\\`'],
 ];
 for(const [from,to] of fixes)source=source.replace(from,to);
 
