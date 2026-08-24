@@ -41,9 +41,12 @@ export function applyContextualShotError(targetY: number, goalHalfHeight: number
   return targetY + triangular * goalHalfHeight * (0.22 + (1 - clamp(quality, 0, 1)) * 1.18);
 }
 
-export type BalanceFormat = 4 | 5 | 6;
+export type BalanceFormat = 3 | 4 | 5 | 6;
 
 export const FORMAT_BALANCE = {
+  // 3v3 is intentionally more open than 4v4: fewer blockers, more direct attacks,
+  // but its target stays bounded so the compact mode does not become pinball.
+  3: { possessionCount: 29, shotChance: 0.64, blockChance: 0.12, onTargetChance: 0.70, saveChance: 0.32, targetGoals: [6, 10] },
   4: { possessionCount: 31, shotChance: 0.59, blockChance: 0.16, onTargetChance: 0.68, saveChance: 0.35, targetGoals: [5, 9] },
   5: { possessionCount: 34, shotChance: 0.53, blockChance: 0.22, onTargetChance: 0.65, saveChance: 0.41, targetGoals: [4, 7] },
   6: { possessionCount: 37, shotChance: 0.47, blockChance: 0.28, onTargetChance: 0.62, saveChance: 0.45, targetGoals: [3, 6] },
@@ -55,7 +58,7 @@ export function simulateBalancedMatch(format: BalanceFormat, rng: () => number =
   const possessionCount = Math.max(20, Math.round(config.possessionCount + (rng() - 0.5) * 6));
   let matchTime = 0;
   for (let index = 0; index < possessionCount; index++) {
-    const duration = 3.2 + rng() * (format === 4 ? 7 : 9.5);
+    const duration = 3.2 + rng() * (format <= 4 ? 7 : 9.5);
     matchTime += duration;
     result.possessions += 1;
     result.possessionSeconds += duration;
