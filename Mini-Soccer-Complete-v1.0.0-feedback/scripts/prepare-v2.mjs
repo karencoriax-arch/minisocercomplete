@@ -8,7 +8,7 @@ const versionPath=join(root,"app","version.ts");
 const version=readFileSync(versionPath,"utf8");
 
 const run=async name=>await import(`${pathToFileURL(join(here,name)).href}?run=${Date.now()}-${Math.random()}`);
-const runV21=async()=>{await run("v21-progression-transform-final.mjs");await run("v21-economy-ui-transform.mjs")};
+const runV21=async()=>{await run("v21-progression-transform-final.mjs");await run("v21-economy-ui-transform.mjs");await run("v21-progression-balance.mjs")};
 
 if(version.includes('GAME_VERSION = "2.1.0"')){
   await runV21();
