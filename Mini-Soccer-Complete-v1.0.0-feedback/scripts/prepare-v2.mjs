@@ -10,6 +10,7 @@ const run=async name=>await import(`${pathToFileURL(join(here,name)).href}?run=$
 
 if(version.includes('GAME_VERSION = "3.0.0"')){
   await run("v3-transform.mjs");
+  await run("v3-followup.mjs");
 }else{
   if(version.includes('GAME_VERSION = "2.0.1"')){
     await run("cross-platform-v2.0.1.mjs");
@@ -23,4 +24,5 @@ if(version.includes('GAME_VERSION = "3.0.0"')){
     await run("cross-platform-v2.0.1.mjs");
   }
   await run("v3-transform.mjs");
+  await run("v3-followup.mjs");
 }
