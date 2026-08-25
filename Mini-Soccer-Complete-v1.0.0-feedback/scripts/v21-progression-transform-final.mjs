@@ -6,7 +6,7 @@ const here=dirname(fileURLToPath(import.meta.url));
 const sourcePath=join(here,"v21-progression-transform.mjs");
 const runtimePath=join(here,".v21-progression-runtime.mjs");
 let source=readFileSync(sourcePath,"utf8");
-source=source.replace('onBack={()=>setScreen("home")}/>} \',','onBack={()=>setScreen("home")}/>}\',');
+source=source.replace(`onBack={()=>setScreen("home")}/>} ',`,`onBack={()=>setScreen("home")}/>}',`);
 writeFileSync(runtimePath,source);
 try{
   await import(`${pathToFileURL(runtimePath).href}?run=${Date.now()}-${Math.random()}`);
