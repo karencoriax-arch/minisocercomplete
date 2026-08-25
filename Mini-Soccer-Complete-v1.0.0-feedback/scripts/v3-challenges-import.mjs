@@ -1,0 +1,4 @@
+import { readFileSync,writeFileSync } from "node:fs";
+import { dirname,join } from "node:path";
+import { fileURLToPath } from "node:url";
+const here=dirname(fileURLToPath(import.meta.url)),path=join(here,"..","app","page.tsx");let source=readFileSync(path,"utf8");if(!source.includes("xpNeededForLevel")||!source.match(/import \{[^}]*xpNeededForLevel[^}]*\} from "\.\/progression-v3"/)){const from='import { DEFAULT_PROGRESS_V3, addTrainingStars, applyProgressMatch, parseProgressV3, type ProgressStateV3, type TrainingKind } from "./progression-v3";';const to='import { DEFAULT_PROGRESS_V3, addTrainingStars, applyProgressMatch, parseProgressV3, xpNeededForLevel, type ProgressStateV3, type TrainingKind } from "./progression-v3";';const next=source.replace(from,to);if(next===source)throw new Error("V3 challenge import patch failed");source=next;writeFileSync(path,source)}console.log("Mini Soccer Complete v3 challenge imports ready.");
