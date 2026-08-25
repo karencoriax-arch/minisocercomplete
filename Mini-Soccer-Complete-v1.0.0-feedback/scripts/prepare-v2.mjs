@@ -15,6 +15,7 @@ const runV3=async()=>{
   await run("v3-balance.mjs");
   await run("v3-challenges-import.mjs");
   await run("v3-challenges.mjs");
+  await run("v3-cosmetics.mjs");
 };
 
 if(version.includes('GAME_VERSION = "3.0.0"')){
