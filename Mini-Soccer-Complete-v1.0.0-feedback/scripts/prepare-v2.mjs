@@ -19,6 +19,7 @@ const runV3=async()=>{
   await run("v3-tutorial-career.mjs");
   await run("v3-presentation.mjs");
   await run("v3-online-match-integration.mjs");
+  await run("v3-local-integration.mjs");
 };
 
 if(version.includes('GAME_VERSION = "3.0.0"')){
