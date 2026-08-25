@@ -3,6 +3,7 @@ name: Mini Soccer Complete v2 CI
 on:
   push:
     branches:
+      - main
       - v2.0.0-economy-content
   pull_request:
     branches:
