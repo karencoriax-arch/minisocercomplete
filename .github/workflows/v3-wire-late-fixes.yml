@@ -1,0 +1,40 @@
+name: Wire v3 late fixes
+
+on:
+  push:
+    branches:
+      - v3.0.0-complete-rc
+
+permissions:
+  contents: write
+
+jobs:
+  wire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v3.0.0-complete-rc
+      - name: Wire idempotent transforms
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path=Path('Mini-Soccer-Complete-v1.0.0-feedback/scripts/prepare-v2.mjs')
+          s=path.read_text()
+          replacements=[
+            ('  await run("v3-online-lifecycle-followup.mjs");\n', '  await run("v3-online-lifecycle-followup.mjs");\n  await run("v3-online-input-fix.mjs");\n  await run("v3-online-touch-button-fix.mjs");\n'),
+            ('  await run("v3-local-integration.mjs");\n', '  await run("v3-local-integration.mjs");\n  await run("v3-local-runtime-fix.mjs");\n'),
+          ]
+          for old,new in replacements:
+            if new.strip() not in s and old in s:
+              s=s.replace(old,new,1)
+          path.write_text(s)
+          PY
+      - name: Commit if needed
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "msc-release-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add Mini-Soccer-Complete-v1.0.0-feedback/scripts/prepare-v2.mjs
+          git commit -m "Wire v3 late input fixes into release pipeline"
+          git push origin HEAD:v3.0.0-complete-rc
