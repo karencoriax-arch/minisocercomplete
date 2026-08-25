@@ -11,7 +11,8 @@ if(!progress.includes("MSC_V3_CAREER_SCOPE")){
 }
 let page=readFileSync(pagePath,"utf8");
 if(!page.includes("MSC_V3_TUTORIAL_RUNTIME")){
- page=patch(page,'import { ballSkinV3, goalFxClassV3, hudClassV3, trailSkinV3, type EquippedCosmeticsV3 } from "./cosmetics-render-v3";','import { ballSkinV3, goalFxClassV3, hudClassV3, trailSkinV3, type EquippedCosmeticsV3 } from "./cosmetics-render-v3";\nimport { TutorialV3 } from "./tutorial-v3";\n// MSC_V3_TUTORIAL_RUNTIME — interactive tutorial with one-time reward.',"tutorial import");
+ const cosmeticImport='import { ballSkinV3, celebrationClassV3, goalFxClassV3, hudClassV3, stadiumThemeClassV3, trailSkinV3, type EquippedCosmeticsV3 } from "./cosmetics-render-v3";';
+ page=patch(page,cosmeticImport,`${cosmeticImport}\nimport { TutorialV3 } from "./tutorial-v3";\n// MSC_V3_TUTORIAL_RUNTIME — interactive tutorial with one-time reward.`,"tutorial import");
  page=patch(page,'| "challengesV3" | "game"','| "challengesV3" | "tutorialV3" | "game"',"tutorial screen union");
  page=patch(page,'difficulty,tournamentChampion:championThisMatch,teamId,maxDeficit:finalReport.maxDeficit','difficulty,tournamentChampion:championThisMatch,teamId,maxDeficit:finalReport.maxDeficit,careerMatch:mode==="Carrera"',"career match flag runtime");
  page=patch(page,'onProgression={()=>setScreen("progression")} onChallenges={()=>setScreen("challengesV3")} onFeedback={()=>openFeedback()}/>}', 'onProgression={()=>setScreen("progression")} onChallenges={()=>setScreen("challengesV3")} onTutorial={()=>setScreen("tutorialV3")} onFeedback={()=>openFeedback()}/>}',"home tutorial prop");
