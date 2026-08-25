@@ -17,6 +17,7 @@ const runV3=async()=>{
   await run("v3-challenges.mjs");
   await run("v3-cosmetics.mjs");
   await run("v3-tutorial-career.mjs");
+  await run("v3-challenge-balance-followup.mjs");
   await run("v3-presentation.mjs");
   await run("v3-online-match-integration.mjs");
   await run("v3-local-integration.mjs");
