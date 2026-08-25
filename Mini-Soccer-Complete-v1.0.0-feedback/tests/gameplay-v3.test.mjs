@@ -1,0 +1,10 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { WEATHER_V3, ballFeedback, calculateShotV3, derivePlayerAttributes, fatigueMultiplier, selectWeather } from "../app/gameplay-v3.ts";
+
+test("roles produce distinct attribute profiles",()=>{const striker=derivePlayerAttributes("A",88,"DEL"),mid=derivePlayerAttributes("B",88,"MED"),def=derivePlayerAttributes("C",88,"DEF"),keeper=derivePlayerAttributes("D",88,"ARQ");assert.ok(striker.shoot>striker.defense);assert.ok(mid.pass>mid.shoot);assert.ok(def.defense>def.shoot);assert.ok(keeper.keeper>keeper.shoot)});
+test("power shot trades precision for force",()=>{const base={charge:.8,distance:180,maximumUsefulDistance:420,finishing:88,bodyAlignment:.7,pressure:.2,goalkeeperCoverage:.35,lateralOffset:10,fieldHalfHeight:220};const normal=calculateShotV3({...base,type:"NORMAL"}),power=calculateShotV3({...base,type:"POWER"}),finesse=calculateShotV3({...base,type:"FINESSE"});assert.ok(power.forceMultiplier>normal.forceMultiplier);assert.ok(power.errorMultiplier>normal.errorMultiplier);assert.ok(finesse.errorMultiplier<normal.errorMultiplier)});
+test("chip adds vertical intent",()=>{const result=calculateShotV3({type:"CHIP",charge:.5,distance:130,maximumUsefulDistance:420,finishing:86,bodyAlignment:.6,pressure:.15,goalkeeperCoverage:.8,lateralOffset:0,fieldHalfHeight:220});assert.ok(result.verticalBias>.5);assert.ok(result.forceMultiplier<1)});
+test("weather remains subtle and competitive-safe by design",()=>{assert.ok(WEATHER_V3.RAIN.playerMaxSpeedMultiplier>.95);assert.ok(WEATHER_V3.SNOW.playerAccelerationMultiplier>.9);assert.equal(WEATHER_V3.CLEAR.ballDragMultiplier,1);assert.equal(selectWeather("Estadio Nevado",1),"SNOW")});
+test("ball feedback scales with impact",()=>{assert.ok(ballFeedback(600,"SHOT").impact>ballFeedback(180,"PASS").impact);assert.ok(ballFeedback(600,"POST").pitch>ballFeedback(600,"SHOT").pitch)});
+test("fatigue cannot collapse movement into unusable values",()=>{const attributes=derivePlayerAttributes("Motor",86,"MED");assert.ok(fatigueMultiplier(0,attributes)>=.78);assert.equal(fatigueMultiplier(100,attributes),1)});
