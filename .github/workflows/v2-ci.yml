@@ -1,18 +1,19 @@
-name: Mini Soccer Complete v2 CI
+name: Mini Soccer Complete CI
 
 on:
   push:
     branches:
       - main
       - v2.0.0-economy-content
+      - v3.0.0-complete-rc
   pull_request:
     branches:
       - main
 
 jobs:
-  validate-v2:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     defaults:
       run:
         working-directory: Mini-Soccer-Complete-v1.0.0-feedback
@@ -27,7 +28,7 @@ jobs:
           cache-dependency-path: Mini-Soccer-Complete-v1.0.0-feedback/package-lock.json
       - name: Clean install
         run: npm ci
-      - name: Production build with v2 guards
+      - name: Production build with release guards
         run: npm run build
       - name: Full automated test suite
         run: npm test
