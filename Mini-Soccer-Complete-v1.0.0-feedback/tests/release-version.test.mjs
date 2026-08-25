@@ -6,11 +6,11 @@ import { GAME_TITLE, GAME_VERSION, INITIAL_RELEASE } from "../app/version.ts";
 const page = readFileSync(new URL("../app/page.tsx", import.meta.url), "utf8");
 const settings = readFileSync(new URL("../app/settings-menu.tsx", import.meta.url), "utf8");
 
-test("v2.0.1 mantiene la versión centralizada", () => {
+test("v2.1.0 mantiene la versión centralizada", () => {
   assert.equal(GAME_TITLE, "Mini Soccer Complete");
-  assert.equal(GAME_VERSION, "2.0.1");
-  assert.doesNotMatch(page, /["'`]2\.0\.1["'`]/);
-  assert.doesNotMatch(settings, /["'`]2\.0\.1["'`]/);
+  assert.equal(GAME_VERSION, "2.1.0");
+  assert.doesNotMatch(page, /["'`]2\.1\.0["'`]/);
+  assert.doesNotMatch(settings, /["'`]2\.1\.0["'`]/);
 });
 
 test("inicio, carga y configuración leen la constante global", () => {
@@ -19,6 +19,13 @@ test("inicio, carga y configuración leen la constante global", () => {
   assert.match(settings, /category === "ABOUT"/);
   assert.match(settings, /NOVEDADES/);
   assert.match(settings, /INITIAL_RELEASE/);
+});
+
+test("v2.1 integra progresión persistente sin reemplazar economía", () => {
+  assert.match(page, /MSC_V21_PROGRESSION/);
+  assert.match(page, /msc-progression-v21/);
+  assert.match(page, /ProgressionHub/);
+  assert.match(page, /applyProgressionMatch/);
 });
 
 test("la actualización conserva todas las áreas estructurales", () => {
