@@ -8,7 +8,7 @@ const versionPath=join(root,"app","version.ts");
 const version=readFileSync(versionPath,"utf8");
 const run=async name=>await import(`${pathToFileURL(join(here,name)).href}?run=${Date.now()}-${Math.random()}`);
 
-const runV3=async()=>{await run("v3-transform.mjs");await run("v3-followup.mjs");await run("v3-ui-followup.mjs")};
+const runV3=async()=>{await run("v3-transform.mjs");await run("v3-followup.mjs");await run("v3-ui-followup.mjs");await run("v3-balance.mjs")};
 
 if(version.includes('GAME_VERSION = "3.0.0"')){
   await runV3();
