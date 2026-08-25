@@ -31,7 +31,7 @@ test("economía nueva empieza con 500 MSC y sin gemas", () => {
   assert.equal(state.realWinStreakProgress, 0);
 });
 
-test("cinco victorias realmente jugadas entregan 10 gemas", () => {
+test("cinco victorias realmente jugadas entregan 5 gemas", () => {
   let state = fresh();
   let gemsEarned = 0;
   for (let i = 0; i < 5; i++) {
@@ -39,8 +39,8 @@ test("cinco victorias realmente jugadas entregan 10 gemas", () => {
     state = result.state;
     gemsEarned += result.reward.gems;
   }
-  assert.equal(gemsEarned, 10);
-  assert.equal(state.gems, 10);
+  assert.equal(gemsEarned, 5);
+  assert.equal(state.gems, 5);
   assert.equal(state.realWinStreakProgress, 0);
 });
 
@@ -88,13 +88,22 @@ test("recurso comprado se descuenta y se consume una sola vez", () => {
   assert.equal(consumed.state.inventory.resources.AI_FIRST_GOAL, 0);
 });
 
-test("auto win cuesta 5 gemas y no puede usarse sin saldo", () => {
+test("auto win cuesta 15 gemas y no puede usarse sin saldo", () => {
   const broke = consumeMatchSelection(fresh(), { resources: [], gemBoost: "AUTO_WIN" });
   assert.equal(broke.ok, false);
-  const funded = { ...fresh(), gems: 10 };
+  const underfunded = { ...fresh(), gems: 14 };
+  assert.equal(consumeMatchSelection(underfunded, { resources: [], gemBoost: "AUTO_WIN" }).ok, false);
+  const funded = { ...fresh(), gems: 20 };
   const used = consumeMatchSelection(funded, { resources: [], gemBoost: "AUTO_WIN" });
   assert.equal(used.ok, true);
   assert.equal(used.state.gems, 5);
+});
+
+test("ventaja 3-0 cuesta 8 gemas", () => {
+  const funded = { ...fresh(), gems: 10 };
+  const used = consumeMatchSelection(funded, { resources: [], gemBoost: "THREE_GOAL_START" });
+  assert.equal(used.ok, true);
+  assert.equal(used.state.gems, 2);
 });
 
 test("una misión solo puede cobrarse una vez", () => {
