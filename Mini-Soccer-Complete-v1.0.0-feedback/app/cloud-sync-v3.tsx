@@ -1,0 +1,13 @@
+"use client";
+import { useEffect,useRef,useState } from "react";
+import type { EconomyState } from "./economy-v2";
+import type { ProgressStateV3 } from "./progression-v3";
+import { chooseNewestProfileV3, cloudEnabledV3, ensureCloudUserV3, loadCloudProfileV3, sanitizeHandle, saveCloudProfileV3, type CloudProfileV3, type CloudStatus } from "./cloud-v3";
+
+export function CloudSyncBridgeV3({playerName,progress,economy,onProgress,onEconomy}:{playerName:string;progress:ProgressStateV3;economy:EconomyState;onProgress:(next:ProgressStateV3)=>void;onEconomy:(next:EconomyState)=>void}){
+  const [status,setStatus]=useState<CloudStatus>(cloudEnabledV3()?"OFFLINE":"DISABLED"),userId=useRef<string|null>(null),hydrated=useRef(false),saveTimer=useRef<number|null>(null),lastSaved=useRef("");
+  const makeProfile=(uid:string):CloudProfileV3=>{let custom="";try{custom=localStorage.getItem("msc-cloud-handle-v3")||""}catch{}const handle=sanitizeHandle(custom)||`msc_${uid.replaceAll("-","").slice(0,10)}`;return{userId:uid,handle,displayName:(playerName||"Jugador MSC").slice(0,28),progress,msc:economy.msc,gems:economy.gems,updatedAt:progress.updatedAt||new Date().toISOString()}};
+  useEffect(()=>{if(!cloudEnabledV3())return;let cancelled=false;(async()=>{setStatus("CONNECTING");try{const user=await ensureCloudUserV3();if(cancelled||!user){setStatus("OFFLINE");return}userId.current=user.id;const local=makeProfile(user.id),remote=await loadCloudProfileV3(user.id),chosen=chooseNewestProfileV3(local,remote);if(remote&&chosen===remote){onProgress(remote.progress);onEconomy({...economy,msc:remote.msc,gems:remote.gems})}else await saveCloudProfileV3(local);hydrated.current=true;setStatus("SYNCED")}catch{setStatus("ERROR")}})();return()=>{cancelled=true}},[]);
+  useEffect(()=>{if(!hydrated.current||!userId.current||status==="DISABLED")return;if(saveTimer.current)window.clearTimeout(saveTimer.current);saveTimer.current=window.setTimeout(async()=>{const profile=makeProfile(userId.current!);const signature=JSON.stringify([profile.updatedAt,profile.msc,profile.gems,profile.progress.level,profile.progress.rating,profile.progress.stats.matches]);if(signature===lastSaved.current)return;const result=await saveCloudProfileV3(profile);if(result.ok){lastSaved.current=signature;setStatus("SYNCED")}else setStatus("ERROR")},1800);return()=>{if(saveTimer.current)window.clearTimeout(saveTimer.current)}},[progress,economy.msc,economy.gems,playerName,status]);
+  if(status==="DISABLED")return null;return <div className={`v3-cloud-status ${status.toLowerCase()}`} title="MSC Cloud"><i/>{status==="SYNCED"?"CLOUD":status==="CONNECTING"?"SYNC…":status==="ERROR"?"CLOUD !":"LOCAL"}</div>
+}
