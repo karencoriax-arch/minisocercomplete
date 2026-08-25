@@ -9,8 +9,11 @@ const version=readFileSync(versionPath,"utf8");
 
 const run=async name=>await import(`${pathToFileURL(join(here,name)).href}?run=${Date.now()}-${Math.random()}`);
 
-if(version.includes('GAME_VERSION = "2.0.1"')){
+if(version.includes('GAME_VERSION = "2.1.0"')){
+  await run("v21-progression-transform.mjs");
+}else if(version.includes('GAME_VERSION = "2.0.1"')){
   await run("cross-platform-v2.0.1.mjs");
+  await run("v21-progression-transform.mjs");
 }else{
   if(!version.includes('GAME_VERSION = "2.0.0"')){
     await run("mobile-v1.2-transform.mjs");
@@ -19,4 +22,5 @@ if(version.includes('GAME_VERSION = "2.0.1"')){
   }
   await run("v2-transform-final.mjs");
   await run("cross-platform-v2.0.1.mjs");
+  await run("v21-progression-transform.mjs");
 }
