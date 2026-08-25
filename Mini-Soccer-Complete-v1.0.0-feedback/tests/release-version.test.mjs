@@ -6,11 +6,11 @@ import { GAME_TITLE, GAME_VERSION, INITIAL_RELEASE } from "../app/version.ts";
 const page = readFileSync(new URL("../app/page.tsx", import.meta.url), "utf8");
 const settings = readFileSync(new URL("../app/settings-menu.tsx", import.meta.url), "utf8");
 
-test("v2.0.1 mantiene la versión centralizada", () => {
+test("v3.0.0 mantiene la versión centralizada", () => {
   assert.equal(GAME_TITLE, "Mini Soccer Complete");
-  assert.equal(GAME_VERSION, "2.0.1");
-  assert.doesNotMatch(page, /["'`]2\.0\.1["'`]/);
-  assert.doesNotMatch(settings, /["'`]2\.0\.1["'`]/);
+  assert.equal(GAME_VERSION, "3.0.0");
+  assert.doesNotMatch(page, /["'`]3\.0\.0["'`]/);
+  assert.doesNotMatch(settings, /["'`]3\.0\.0["'`]/);
 });
 
 test("inicio, carga y configuración leen la constante global", () => {
@@ -21,7 +21,10 @@ test("inicio, carga y configuración leen la constante global", () => {
   assert.match(settings, /INITIAL_RELEASE/);
 });
 
-test("la actualización conserva todas las áreas estructurales", () => {
+test("v3 integra progresión y conserva todas las áreas estructurales", () => {
+  assert.match(page,/ProgressionHubV3/);
+  assert.match(page,/applyProgressMatch/);
+  assert.match(page,/GamepadManagerV3/);
   assert.deepEqual(INITIAL_RELEASE.sections.map(section => section.title[0]), ["Gameplay", "Competiciones", "Personalización", "Configuración", "Presentación"]);
   assert.equal(INITIAL_RELEASE.sections.reduce((total, section) => total + section.items.length, 0), 44);
 });
