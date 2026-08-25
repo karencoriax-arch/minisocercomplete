@@ -1,0 +1,29 @@
+name: Mini Soccer Complete v3 Integration Contract
+
+on:
+  push:
+    branches:
+      - v3.0.0-complete-rc
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  integration-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: Mini-Soccer-Complete-v1.0.0-feedback
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: Mini-Soccer-Complete-v1.0.0-feedback/package-lock.json
+      - run: npm ci
+      - name: Build exact release candidate
+        run: npm run build
+      - name: Verify v3 feature integration contract
+        run: node --test tests/v3-integration.test.mjs
