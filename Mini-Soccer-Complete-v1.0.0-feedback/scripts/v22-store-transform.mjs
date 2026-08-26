@@ -47,8 +47,8 @@ if(!page.includes("MSC_V22_STORE")){
     "hud theme class");
   page=replaceRequired(page,
     'style={{"--profile-accent":profile.accentColor} as CSSProperties}',
-    'style={{"--profile-accent":hudTheme?.preview.secondary??profile.accentColor} as CSSProperties}',
-    "hud theme accent");
+    'style={{"--profile-accent":hudTheme?.preview.secondary??profile.accentColor,"--lime":hudTheme?.preview.secondary??"#d9ff45","--panel":hudTheme?.preview.primary??"#101914"} as CSSProperties}',
+    "hud theme accent and panel");
 
   page=replaceRequired(page,
     '    {screen==="economy" && <EconomyHub lang={lang} state={economy} teams={TEAMS} onChange={next=>{economyRef.current=next;setEconomy(next)}} onBack={()=>setScreen("home")} onProgression={()=>setScreen("progression")}/>}\n    {screen==="progression"',
@@ -117,6 +117,7 @@ const checks=[
   [finalPage.includes("msc-customization-v22"),"customization persistence"],
   [finalPage.includes("cosmeticBall?.preview.primary")&&finalPage.includes("cosmeticTrail.preview.primary"),"ball and trail cosmetics"],
   [finalPage.includes("customKit?.category===\"KIT\"")||finalPage.includes('customKit?.category==="KIT"'),"custom kit render"],
+  [finalPage.includes('"--lime":hudTheme?.preview.secondary')&&finalPage.includes('"--panel":hudTheme?.preview.primary'),"hud theme reaches match UI"],
   [finalPage.includes("GameplayCosmeticLayer"),"goal cosmetic layer"],
   [finalPage.includes("onNationalKitEquip")&&finalUi.includes("onNationalKitEquip"),"mutually exclusive kit equip"],
   [finalUi.includes("MSC_V22_STORE_LINK")&&finalUi.includes("TIENDA 2.0"),"economy store entry"],
