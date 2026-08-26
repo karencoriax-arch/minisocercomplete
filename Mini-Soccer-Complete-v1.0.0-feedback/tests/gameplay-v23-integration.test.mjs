@@ -14,9 +14,15 @@ test("v2.3 conecta ShotSystem al jugador y a la IA",()=>{
   assert.match(page,/dataset\.shotType/);
 });
 
-test("v2.3 exige typecheck estricto antes del build",()=>{
-  assert.match(pkg.scripts.prebuild,/tsc --noEmit/);
-  assert.match(pkg.scripts.test,/tsc --noEmit/);
+test("v2.3 exige verificación semántica de nombres antes del build",()=>{
+  assert.match(pkg.scripts.prebuild,/check-runtime-names\.mjs/);
+  assert.match(pkg.scripts.test,/check-runtime-names\.mjs/);
+});
+
+test("los dos planificadores de tiro enlazan goalkeeperRush con keeperRush",()=>{
+  const bindings=page.match(/goalkeeperRush:keeperRush/g)??[];
+  assert.equal(bindings.length,2);
+  assert.doesNotMatch(page,/goalkeeperCoverage:keeperCoverage,goalkeeperRush,targetY/);
 });
 
 test("telemetría de tiro solo informa un tipo mientras la pelota sigue en SHOT",()=>{
