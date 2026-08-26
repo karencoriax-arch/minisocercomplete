@@ -18,9 +18,9 @@ if(!pass.includes("MSC_V23_PASS_POLISH")){
   lowSpeedThreshold:155,
   stopSpeed:3,
   passerMomentumTransfer:.16,
-  minimumSpeed:{4:225,5:230,6:235} as Record<PassFormat,number>,
-  maximumSpeed:{4:640,5:680,6:720} as Record<PassFormat,number>,
-  maximumLeadDistance:{4:88,5:108,6:130} as Record<PassFormat,number>,
+  minimumSpeed:{3:220,4:225,5:230,6:235} as Record<PassFormat,number>,
+  maximumSpeed:{3:610,4:640,5:680,6:720} as Record<PassFormat,number>,
+  maximumLeadDistance:{3:78,4:88,5:108,6:130} as Record<PassFormat,number>,
 };`,
 `export const PASS_PHYSICS={
   highSpeedDragPerFrame60:.9895,
@@ -28,9 +28,9 @@ if(!pass.includes("MSC_V23_PASS_POLISH")){
   lowSpeedThreshold:155,
   stopSpeed:3,
   passerMomentumTransfer:.16,
-  minimumSpeed:{4:225,5:230,6:235} as Record<PassFormat,number>,
-  maximumSpeed:{4:640,5:680,6:720} as Record<PassFormat,number>,
-  maximumLeadDistance:{4:88,5:108,6:130} as Record<PassFormat,number>,
+  minimumSpeed:{3:220,4:225,5:230,6:235} as Record<PassFormat,number>,
+  maximumSpeed:{3:610,4:640,5:680,6:720} as Record<PassFormat,number>,
+  maximumLeadDistance:{3:78,4:88,5:108,6:130} as Record<PassFormat,number>,
 };
 
 // MSC_V23_PASS_POLISH — short passes favor control; long/through passes keep useful weight without shot-like speed.
@@ -82,8 +82,8 @@ import { postNormal, resolveRebound } from "./ball-physics-v23";
                 pendingShot.current={player:owner,team:carrier.team,executeAt:ts+shotPlan.preparationMs,aimX:goalX,aimY:shotPlan.targetY,force:shotPlan.speed,quality:shotPlan.quality,shotType:shotPlan.type,airborneMs:shotPlan.airborneMs};`;
   page=replaceRequired(page,aiOld,aiNew,"AI shot system");
 
-  const humanOld=`if(shooter&&shooter.team===0&&shooterDistance<124&&!pendingShot.current){let nearestPressure=Infinity;for(let i=n;i<n*2;i++)nearestPressure=Math.min(nearestPressure,Math.hypot(bodies.current[i].x-shooter.x,bodies.current[i].y-shooter.y));const aimY=cy+((inputManager.current.isHeld("MOVE_DOWN")?1:0)-(inputManager.current.isHeld("MOVE_UP")?1:0))*82,goalX=right+80,toGoal=normalizedAim(goalX-shooter.x,aimY-shooter.y),speed=Math.hypot(shooter.vx,shooter.vy),alignment=speed>10?(shooter.vx*toGoal.x+shooter.vy*toGoal.y)/speed:.35,keeper=bodies.current.slice(n,n*2).find(player=>player.role==="ARQ"),pressure=Math.max(0,Math.min(1,(125-nearestPressure)/125)),keeperCoverage=keeper?Math.max(0,1-Math.abs(keeper.y-aimY)/108):0,quality=calculateShotQuality({distance:Math.hypot(goalX-shooter.x,aimY-shooter.y),maximumUsefulDistance:(right-left)*.46,lateralOffset:shooter.y-cy,fieldHalfHeight:(bottom-top)/2,finishing:shooter.rating,bodyAlignment:alignment,pressure,goalkeeperCoverage:keeperCoverage});pendingShot.current={player:active.current,team:0,executeAt:ts+shotPreparationMs(alignment,pressure,shooter.rating),aimX:goalX,aimY:applyContextualShotError(aimY,54,quality),force:(440+Math.max(12,chargeRef.current)*3.2)*(.91+quality*.12),quality}}`;
-  const humanNew=`if(shooter&&shooter.team===0&&shooterDistance<124&&!pendingShot.current){let nearestPressure=Infinity;for(let i=n;i<n*2;i++)nearestPressure=Math.min(nearestPressure,Math.hypot(bodies.current[i].x-shooter.x,bodies.current[i].y-shooter.y));const aimY=cy+((inputManager.current.isHeld("MOVE_DOWN")?1:0)-(inputManager.current.isHeld("MOVE_UP")?1:0))*82,goalX=right+80,toGoal=normalizedAim(goalX-shooter.x,aimY-shooter.y),speed=Math.hypot(shooter.vx,shooter.vy),alignment=speed>10?(shooter.vx*toGoal.x+shooter.vy*toGoal.y)/speed:.35,keeper=bodies.current.slice(n,n*2).find(player=>player.role==="ARQ"),pressure=Math.max(0,Math.min(1,(125-nearestPressure)/125)),keeperCoverage=keeper?Math.max(0,1-Math.abs(keeper.y-aimY)/108):0,keeperRush=keeper?Math.max(0,Math.min(1,Math.abs(keeper.x-right)/180)):0,shotPlan=shotEngine.current.plan({player:shooter,charge:Math.max(0,Math.min(1,chargeRef.current/100)),distance:Math.hypot(goalX-shooter.x,aimY-shooter.y),maximumUsefulDistance:(right-left)*.46,lateralOffset:shooter.y-cy,fieldHalfHeight:(bottom-top)/2,bodyAlignment:alignment,pressure,goalkeeperCoverage:keeperCoverage,goalkeeperRush,targetY:aimY,goalHalfHeight:54});pendingShot.current={player:active.current,team:0,executeAt:ts+shotPlan.preparationMs,aimX:goalX,aimY:shotPlan.targetY,force:shotPlan.speed,quality:shotPlan.quality,shotType:shotPlan.type,airborneMs:shotPlan.airborneMs}}`;
+  const humanOld=`if(shooter&&shooter.team===0&&shooterDistance<124&&!pendingShot.current){let nearestPressure=Infinity;for(let i=n;i<n*2;i++)nearestPressure=Math.min(nearestPressure,Math.hypot(bodies.current[i].x-shooter.x,bodies.current[i].y-shooter.y));const shootYInput=mobileMove.current.active?mobileMove.current.y:((inputManager.current.isHeld("MOVE_DOWN")?1:0)-(inputManager.current.isHeld("MOVE_UP")?1:0)),aimY=cy+shootYInput*82,goalX=right+80,toGoal=normalizedAim(goalX-shooter.x,aimY-shooter.y),speed=Math.hypot(shooter.vx,shooter.vy),alignment=speed>10?(shooter.vx*toGoal.x+shooter.vy*toGoal.y)/speed:.35,keeper=bodies.current.slice(n,n*2).find(player=>player.role==="ARQ"),pressure=Math.max(0,Math.min(1,(125-nearestPressure)/125)),keeperCoverage=keeper?Math.max(0,1-Math.abs(keeper.y-aimY)/108):0,quality=calculateShotQuality({distance:Math.hypot(goalX-shooter.x,aimY-shooter.y),maximumUsefulDistance:(right-left)*.46,lateralOffset:shooter.y-cy,fieldHalfHeight:(bottom-top)/2,finishing:shooter.rating,bodyAlignment:alignment,pressure,goalkeeperCoverage:keeperCoverage});pendingShot.current={player:active.current,team:0,executeAt:ts+shotPreparationMs(alignment,pressure,shooter.rating),aimX:goalX,aimY:applyContextualShotError(aimY,54,quality),force:(440+Math.max(12,chargeRef.current)*3.2)*(.91+quality*.12),quality}}`;
+  const humanNew=`if(shooter&&shooter.team===0&&shooterDistance<124&&!pendingShot.current){let nearestPressure=Infinity;for(let i=n;i<n*2;i++)nearestPressure=Math.min(nearestPressure,Math.hypot(bodies.current[i].x-shooter.x,bodies.current[i].y-shooter.y));const shootYInput=mobileMove.current.active?mobileMove.current.y:((inputManager.current.isHeld("MOVE_DOWN")?1:0)-(inputManager.current.isHeld("MOVE_UP")?1:0)),aimY=cy+shootYInput*82,goalX=right+80,toGoal=normalizedAim(goalX-shooter.x,aimY-shooter.y),speed=Math.hypot(shooter.vx,shooter.vy),alignment=speed>10?(shooter.vx*toGoal.x+shooter.vy*toGoal.y)/speed:.35,keeper=bodies.current.slice(n,n*2).find(player=>player.role==="ARQ"),pressure=Math.max(0,Math.min(1,(125-nearestPressure)/125)),keeperCoverage=keeper?Math.max(0,1-Math.abs(keeper.y-aimY)/108):0,keeperRush=keeper?Math.max(0,Math.min(1,Math.abs(keeper.x-right)/180)):0,shotPlan=shotEngine.current.plan({player:shooter,charge:Math.max(0,Math.min(1,chargeRef.current/100)),distance:Math.hypot(goalX-shooter.x,aimY-shooter.y),maximumUsefulDistance:(right-left)*.46,lateralOffset:shooter.y-cy,fieldHalfHeight:(bottom-top)/2,bodyAlignment:alignment,pressure,goalkeeperCoverage:keeperCoverage,goalkeeperRush,targetY:aimY,goalHalfHeight:54});pendingShot.current={player:active.current,team:0,executeAt:ts+shotPlan.preparationMs,aimX:goalX,aimY:shotPlan.targetY,force:shotPlan.speed,quality:shotPlan.quality,shotType:shotPlan.type,airborneMs:shotPlan.airborneMs}}`;
   page=replaceRequired(page,humanOld,humanNew,"human shot system");
 
   page=replaceRequired(page,
@@ -127,6 +127,7 @@ const checks=[
  [finalPage.includes('resolveRebound')&&finalPage.includes('postNormal'),"rebound physics"],
  [finalPage.includes('dataset.shotType'),"shot telemetry"],
  [finalPass.includes("MSC_V23_PASS_POLISH")&&finalPass.includes("PASS_TYPE_TUNING"),"pass tuning"],
+ [finalPass.includes('minimumSpeed:{3:220,4:225,5:230,6:235}'),"3v3 pass physics"],
 ];
 for(const [ok,label] of checks)if(!ok)throw new Error(`Mini Soccer Complete v2.3.0 verification failed: ${label}`);
 console.log("Mini Soccer Complete v2.3.0 gameplay polish verification passed.");
