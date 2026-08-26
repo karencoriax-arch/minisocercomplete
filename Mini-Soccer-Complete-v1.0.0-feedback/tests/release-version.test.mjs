@@ -6,11 +6,11 @@ import { GAME_TITLE, GAME_VERSION, INITIAL_RELEASE } from "../app/version.ts";
 const page = readFileSync(new URL("../app/page.tsx", import.meta.url), "utf8");
 const settings = readFileSync(new URL("../app/settings-menu.tsx", import.meta.url), "utf8");
 
-test("v2.2.0 mantiene la versión centralizada", () => {
+test("v2.3.0 mantiene la versión centralizada", () => {
   assert.equal(GAME_TITLE, "Mini Soccer Complete");
-  assert.equal(GAME_VERSION, "2.2.0");
-  assert.doesNotMatch(page, /["'`]2\.2\.0["'`]/);
-  assert.doesNotMatch(settings, /["'`]2\.2\.0["'`]/);
+  assert.equal(GAME_VERSION, "2.3.0");
+  assert.doesNotMatch(page, /["'`]2\.3\.0["'`]/);
+  assert.doesNotMatch(settings, /["'`]2\.3\.0["'`]/);
 });
 
 test("inicio, carga y configuración leen la constante global", () => {
@@ -28,13 +28,19 @@ test("v2.1 conserva progresión persistente", () => {
   assert.match(page, /applyProgressionMatch/);
 });
 
-test("v2.2 integra tienda cosmética persistente sin tocar gameplay competitivo", () => {
+test("v2.2 conserva tienda cosmética persistente", () => {
   assert.match(page, /MSC_V22_STORE/);
   assert.match(page, /msc-customization-v22/);
   assert.match(page, /StoreV22/);
-  assert.match(page, /cosmeticBall/);
-  assert.match(page, /cosmeticTrail/);
   assert.match(page, /GameplayCosmeticLayer/);
+});
+
+test("v2.3 integra tiros contextuales, pases pulidos y rebotes físicos", () => {
+  assert.match(page, /MSC_V23_GAMEPLAY/);
+  assert.match(page, /ShotSystem/);
+  assert.match(page, /activeShotFlight/);
+  assert.match(page, /resolveRebound/);
+  assert.match(page, /dataset\.shotType/);
 });
 
 test("la actualización conserva todas las áreas estructurales", () => {

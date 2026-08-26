@@ -1,39 +1,22 @@
 {
   "name": "mini-soccer-complete",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "private": true,
-  "engines": {
-    "node": ">=22.13.0"
-  },
+  "engines": {"node": ">=22.13.0"},
   "scripts": {
     "mobile:prepare": "node scripts/prepare-v2.mjs",
     "dev": "npm run mobile:prepare && next dev",
-    "prebuild": "npm run mobile:prepare && node --experimental-strip-types --test tests/economy-v2.test.mjs && node --experimental-strip-types --test tests/progression-v21.test.mjs && node --experimental-strip-types --test tests/customization-v22.test.mjs && node --test tests/customization-v22-ui.test.mjs && node --experimental-strip-types --test tests/platform-detection.test.mjs && node --experimental-strip-types --test tests/release-version.test.mjs",
+    "runtime:check": "npm run mobile:prepare && node scripts/check-runtime-names.mjs",
+    "prebuild": "npm run mobile:prepare && node scripts/check-runtime-names.mjs && node --experimental-strip-types --test tests/economy-v2.test.mjs && node --experimental-strip-types --test tests/progression-v21.test.mjs && node --experimental-strip-types --test tests/customization-v22.test.mjs && node --test tests/customization-v22-ui.test.mjs && node --experimental-strip-types --test tests/shot-system-v23.test.mjs && node --experimental-strip-types --test tests/ball-physics-v23.test.mjs && node --experimental-strip-types --test tests/gameplay-v23-integration.test.mjs && node --experimental-strip-types --test tests/platform-detection.test.mjs && node --experimental-strip-types --test tests/release-version.test.mjs",
     "build": "next build",
     "start": "next start",
-    "test": "npm run mobile:prepare && node --test tests/rendered-html.test.mjs && node --test tests/ui-contract.test.mjs && node --test tests/customization-v22-ui.test.mjs && node --experimental-strip-types --test tests/release-version.test.mjs && node --experimental-strip-types --test tests/platform-detection.test.mjs && node --experimental-strip-types --test tests/economy-v2.test.mjs && node --experimental-strip-types --test tests/progression-v21.test.mjs && node --experimental-strip-types --test tests/customization-v22.test.mjs && node --experimental-strip-types --test tests/replay-system.test.mjs && node --experimental-strip-types --test tests/input-manager.test.mjs && node --experimental-strip-types --test tests/game-state.test.mjs && node --experimental-strip-types --test tests/graphics-settings.test.mjs && node --experimental-strip-types --test tests/game-ai.test.mjs && node --experimental-strip-types --test tests/pass-system.test.mjs && node --experimental-strip-types --test tests/match-config.test.mjs && node --experimental-strip-types --test tests/gameplay-polish.test.mjs && node --experimental-strip-types --test tests/tournament-engine.test.mjs && node --experimental-strip-types --test tests/feedback-system.test.mjs && npm run test:simulation",
-    "test:simulation": "node --experimental-strip-types scripts/simulate-difficulties.mjs && node --experimental-strip-types scripts/simulate-formats.mjs && node --experimental-strip-types scripts/simulate-progression.mjs && node --experimental-strip-types scripts/simulate-customization.mjs",
+    "test": "npm run mobile:prepare && node scripts/check-runtime-names.mjs && node --test tests/rendered-html.test.mjs && node --test tests/ui-contract.test.mjs && node --test tests/customization-v22-ui.test.mjs && node --experimental-strip-types --test tests/shot-system-v23.test.mjs && node --experimental-strip-types --test tests/ball-physics-v23.test.mjs && node --experimental-strip-types --test tests/gameplay-v23-integration.test.mjs && node --experimental-strip-types --test tests/release-version.test.mjs && node --experimental-strip-types --test tests/platform-detection.test.mjs && node --experimental-strip-types --test tests/economy-v2.test.mjs && node --experimental-strip-types --test tests/progression-v21.test.mjs && node --experimental-strip-types --test tests/customization-v22.test.mjs && node --experimental-strip-types --test tests/replay-system.test.mjs && node --experimental-strip-types --test tests/input-manager.test.mjs && node --experimental-strip-types --test tests/game-state.test.mjs && node --experimental-strip-types --test tests/graphics-settings.test.mjs && node --experimental-strip-types --test tests/game-ai.test.mjs && node --experimental-strip-types --test tests/pass-system.test.mjs && node --experimental-strip-types --test tests/match-config.test.mjs && node --experimental-strip-types --test tests/gameplay-polish.test.mjs && node --experimental-strip-types --test tests/tournament-engine.test.mjs && node --experimental-strip-types --test tests/feedback-system.test.mjs && npm run test:simulation",
+    "test:simulation": "node --experimental-strip-types scripts/simulate-difficulties.mjs && node --experimental-strip-types scripts/simulate-formats.mjs && node --experimental-strip-types scripts/simulate-progression.mjs && node --experimental-strip-types scripts/simulate-customization.mjs && node --experimental-strip-types scripts/simulate-gameplay-v23.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
   },
-  "dependencies": {
-    "@supabase/supabase-js": "2.112.3",
-    "drizzle-orm": "0.45.2",
-    "next": "16.2.6",
-    "react": "19.2.6",
-    "react-dom": "19.2.6"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "4.2.1",
-    "@types/node": "22.19.19",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
-    "drizzle-kit": "0.31.10",
-    "eslint": "9.39.4",
-    "eslint-config-next": "16.2.6",
-    "tailwindcss": "4.2.1",
-    "typescript": "5.9.3"
-  },
+  "dependencies": {"@supabase/supabase-js":"2.112.3","drizzle-orm":"0.45.2","next":"16.2.6","react":"19.2.6","react-dom":"19.2.6"},
+  "devDependencies": {"@tailwindcss/postcss":"4.2.1","@types/node":"22.19.19","@types/react":"19.2.14","@types/react-dom":"19.2.3","drizzle-kit":"0.31.10","eslint":"9.39.4","eslint-config-next":"16.2.6","tailwindcss":"4.2.1","typescript":"5.9.3"},
   "type": "module",
   "displayName": "Mini Soccer Complete"
 }
