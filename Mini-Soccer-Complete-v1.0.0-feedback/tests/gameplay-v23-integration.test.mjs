@@ -26,7 +26,7 @@ test("los dos planificadores de tiro enlazan goalkeeperRush con keeperRush",()=>
 });
 
 test("telemetría de tiro solo informa un tipo mientras la pelota sigue en SHOT",()=>{
-  assert.match(page,/activeShotFlight\.current&&ballFlight\.current\.type===\"SHOT\"\?activeShotFlight\.current\.type:\"NONE\"/);
+  assert.match(page,/c\.dataset\.shotType=ballFlight\.current\.type===?\"SHOT\"\?\(activeShotFlight\.current\?\.type\?\?\"NORMAL\"\):\"NONE\"/);
 });
 
 test("la vaselina tiene ventana aérea pero el arquero sigue pudiendo intervenir",()=>{
