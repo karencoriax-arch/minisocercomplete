@@ -52,7 +52,7 @@ if(!page.includes("MSC_V22_STORE")){
 
   page=replaceRequired(page,
     '    {screen==="economy" && <EconomyHub lang={lang} state={economy} teams={TEAMS} onChange={next=>{economyRef.current=next;setEconomy(next)}} onBack={()=>setScreen("home")} onProgression={()=>setScreen("progression")}/>}\n    {screen==="progression"',
-    '    {screen==="economy" && <EconomyHub lang={lang} state={economy} teams={TEAMS} onChange={next=>{economyRef.current=next;setEconomy(next)}} onBack={()=>setScreen("home")} onProgression={()=>setScreen("progression")} onStore={()=>setScreen("store")}/>}\n    {screen==="store" && <StoreV22 lang={lang} economy={economy} customization={customization} onEconomyChange={next=>{economyRef.current=next;setEconomy(next)}} onCustomizationChange={setCustomization} onBack={()=>setScreen("economy")}/>}\n    {screen==="progression"',
+    '    {screen==="economy" && <EconomyHub lang={lang} state={economy} teams={TEAMS} onChange={next=>{economyRef.current=next;setEconomy(next)}} onBack={()=>setScreen("home")} onProgression={()=>setScreen("progression")} onStore={()=>setScreen("store")} onNationalKitEquip={()=>setCustomization(current=>({...current,equipped:{...current.equipped,kit:null}}))}/>}\n    {screen==="store" && <StoreV22 lang={lang} economy={economy} customization={customization} onEconomyChange={next=>{economyRef.current=next;setEconomy(next)}} onCustomizationChange={setCustomization} onBack={()=>setScreen("economy")}/>}\n    {screen==="progression"',
     "store screen");
 
   page=replaceRequired(page,
@@ -86,8 +86,12 @@ let economyUi=read("economy-v2-ui.tsx");
 if(!economyUi.includes("MSC_V22_STORE_LINK")){
   economyUi=replaceRequired(economyUi,
     'export function EconomyHub({lang,state,teams,onChange,onBack,onProgression}:{lang:EconomyLang;state:EconomyState;teams:EconomyTeam[];onChange:(state:EconomyState)=>void;onBack:()=>void;onProgression:()=>void}){',
-    'export function EconomyHub({lang,state,teams,onChange,onBack,onProgression,onStore}:{lang:EconomyLang;state:EconomyState;teams:EconomyTeam[];onChange:(state:EconomyState)=>void;onBack:()=>void;onProgression:()=>void;onStore:()=>void}){\n  // MSC_V22_STORE_LINK — cosmetic store is separate from consumable resources.',
+    'export function EconomyHub({lang,state,teams,onChange,onBack,onProgression,onStore,onNationalKitEquip}:{lang:EconomyLang;state:EconomyState;teams:EconomyTeam[];onChange:(state:EconomyState)=>void;onBack:()=>void;onProgression:()=>void;onStore:()=>void;onNationalKitEquip:()=>void}){\n  // MSC_V22_STORE_LINK — cosmetic store is separate from consumable resources.',
     "economy store signature");
+  economyUi=replaceRequired(economyUi,
+    'onClick={()=>onChange(equipKit(state,equipped?null:kit.id))}',
+    'onClick={()=>{onChange(equipKit(state,equipped?null:kit.id));if(!equipped)onNationalKitEquip()}}',
+    "national kit exclusivity");
   economyUi=replaceRequired(economyUi,
     '<nav className="v2-economy-tabs">',
     '<div className="v22-store-entry"><button onClick={onStore}><span>✦</span><div><small>MINI SOCCER COMPLETE 2.2</small><b>{tr(lang,"TIENDA 2.0 Y PERSONALIZACIÓN","STORE 2.0 & CUSTOMIZATION")}</b><em>{tr(lang,"Camisetas originales · pelotas · estelas · efectos de gol · celebraciones · HUD","Original kits · balls · trails · goal effects · celebrations · HUD")}</em></div><i>→</i></button></div><nav className="v2-economy-tabs">',
@@ -114,6 +118,7 @@ const checks=[
   [finalPage.includes("cosmeticBall?.preview.primary")&&finalPage.includes("cosmeticTrail.preview.primary"),"ball and trail cosmetics"],
   [finalPage.includes("customKit?.category===\"KIT\"")||finalPage.includes('customKit?.category==="KIT"'),"custom kit render"],
   [finalPage.includes("GameplayCosmeticLayer"),"goal cosmetic layer"],
+  [finalPage.includes("onNationalKitEquip")&&finalUi.includes("onNationalKitEquip"),"mutually exclusive kit equip"],
   [finalUi.includes("MSC_V22_STORE_LINK")&&finalUi.includes("TIENDA 2.0"),"economy store entry"],
   [finalCss.includes("MSC_V22_STORE_STYLES")&&finalCss.includes("v22-store-page"),"store styles"],
 ];
