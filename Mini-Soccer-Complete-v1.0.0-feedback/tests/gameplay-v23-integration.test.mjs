@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { PASS_PHYSICS, PASS_TYPE_TUNING, PassSystem } from "../app/pass-system.ts";
 
 const page=readFileSync(new URL("../app/page.tsx",import.meta.url),"utf8");
+const pkg=JSON.parse(readFileSync(new URL("../package.json",import.meta.url),"utf8"));
 
 test("v2.3 conecta ShotSystem al jugador y a la IA",()=>{
   assert.match(page,/MSC_V23_GAMEPLAY/);
@@ -13,9 +14,13 @@ test("v2.3 conecta ShotSystem al jugador y a la IA",()=>{
   assert.match(page,/dataset\.shotType/);
 });
 
+test("v2.3 exige typecheck estricto antes del build",()=>{
+  assert.match(pkg.scripts.prebuild,/tsc --noEmit/);
+  assert.match(pkg.scripts.test,/tsc --noEmit/);
+});
+
 test("telemetría de tiro solo informa un tipo mientras la pelota sigue en SHOT",()=>{
-  assert.match(page,/dataset\.shotType=ballFlight\.current\.type===?\"SHOT\"\?\(activeShotFlight\.current\?\.type\?\?\"NORMAL\"\):\"NONE\"/);
-  assert.doesNotMatch(page,/dataset\.shotType=activeShotFlight\.current\?\.type\?\?\"NONE\"/);
+  assert.match(page,/activeShotFlight\.current&&ballFlight\.current\.type===\"SHOT\"\?activeShotFlight\.current\.type:\"NONE\"/);
 });
 
 test("la vaselina tiene ventana aérea pero el arquero sigue pudiendo intervenir",()=>{
