@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { PASS_PHYSICS, PASS_TYPE_TUNING } from "../app/pass-system.ts";
+import { PASS_PHYSICS, PASS_TYPE_TUNING, PassSystem } from "../app/pass-system.ts";
 
 const page=readFileSync(new URL("../app/page.tsx",import.meta.url),"utf8");
 
@@ -34,6 +34,18 @@ test("pases públicos tienen parámetros válidos para 3v3 y 4v4",()=>{
   }
   assert.ok(PASS_TYPE_TUNING.SHORT.speed<PASS_TYPE_TUNING.MEDIUM.speed);
   assert.ok(PASS_TYPE_TUNING.SHORT.angular<PASS_TYPE_TUNING.LONG.angular);
+});
+
+test("un toque cercano sigue suave y uno lejano recibe solo un piso útil por distancia",()=>{
+  const system=new PassSystem(),bounds={left:46,right:1274,top:74,bottom:706};
+  const make=(receiverX)=>{
+    const passer={x:500,y:390,vx:0,vy:0,r:18,team:0,rating:86,role:"MED"},receiver={x:receiverX,y:390,vx:0,vy:0,r:18,team:0,rating:84,role:"DEL"};
+    return system.plan({origin:{x:passer.x,y:passer.y},passer,players:[passer,receiver],teamStart:0,teamEnd:2,selectedReceiver:1,receiverLocked:true,confidence:1,userIntentDirection:{x:1,y:0},charge:.15,assist:"ASSISTED",format:3,fieldDiagonal:1514,bounds,pressure:0,receiverPressure:999,rng:()=>.5});
+  };
+  const nearby=make(620),distant=make(1000);
+  assert.ok(nearby.userPowerModifier<.70,`el toque cercano quedó demasiado fuerte: ${nearby.userPowerModifier}`);
+  assert.ok(distant.userPowerModifier>nearby.userPowerModifier+.15,`el pase lejano no recibió compensación suficiente: ${distant.userPowerModifier}`);
+  assert.ok(distant.userPowerModifier<=.88,`el piso por distancia no debe convertir el toque en pase máximo: ${distant.userPowerModifier}`);
 });
 
 test("v2.3 conserva una sola acción SHOOT y no agrega controles obligatorios",()=>{
