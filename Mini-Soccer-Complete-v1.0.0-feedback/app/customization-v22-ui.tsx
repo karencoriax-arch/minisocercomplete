@@ -53,6 +53,7 @@ export function StoreV22({lang,economy,customization,onEconomyChange,onCustomiza
   const equip=(item:CosmeticItem)=>{
     const key={KIT:"kit",BALL:"ball",TRAIL:"trail",GOAL_EFFECT:"goalEffect",CELEBRATION:"celebration",HUD_THEME:"hudTheme"}[item.category] as keyof CustomizationState["equipped"];
     const active=customization.equipped[key]===item.id;
+    if(item.category==="KIT"&&!active&&economy.equippedKitId!==null)onEconomyChange({...economy,equippedKitId:null});
     onCustomizationChange(equipCosmetic(customization,active?null:item.id,item.category));
   };
   return <div className="page-shell v22-store-page">
