@@ -1,4 +1,4 @@
-import { calculateShotQuality, shotPreparationMs } from "./gameplay-polish";
+import { calculateShotQuality, shotPreparationMs } from "./gameplay-polish.ts";
 
 export type ShotType = "PLACED" | "NORMAL" | "POWER" | "CHIP";
 export type ShotVector = { x:number; y:number };
