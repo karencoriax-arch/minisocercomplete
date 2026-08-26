@@ -42,3 +42,15 @@ try{
 }finally{
   try{unlinkSync(runtimePath)}catch{}
 }
+
+// Telemetry must describe the current ball state, never a stale previous shot.
+const pagePath=join(here,"..","app","page.tsx");
+let page=readFileSync(pagePath,"utf8");
+const staleTelemetry='c.dataset.shotType=activeShotFlight.current?.type??"NONE";';
+const liveTelemetry='c.dataset.shotType=ballFlight.current.type==="SHOT"?(activeShotFlight.current?.type??"NORMAL"):"NONE";';
+if(page.includes(staleTelemetry)){
+  page=page.replace(staleTelemetry,liveTelemetry);
+  writeFileSync(pagePath,page);
+}else if(!page.includes(liveTelemetry)){
+  throw new Error("v2.3 final wrapper could not verify live shot telemetry");
+}
