@@ -10,7 +10,7 @@ let shotScenarios=0,passScenarios=0,reboundScenarios=0,passArrivals=0,maxPassErr
 
 for(let i=0;i<1600;i++){
   const role=["DEL","EXT","MED","DEF"][i%4],charge=(i%101)/100,keeperRush=(i%13)/12,pressure=(i%11)/10,distance=85+(i%110)*4.3;
-  const plan=shotSystem.plan({player:{rating:72+(i%25),role,vx:(rng()-.5)*180,vy:(rng()-.5)*180},charge,distance,maximumUsefulDistance:620,lateralOffset:(rng()-.5)*520,fieldHalfHeight:410,bodyAlignment:rng()*2-1,pressure,goalkeeperCoverage:rng(),goalkeeperRush,targetY:420+(rng()-.5)*70,goalHalfHeight:54,rng});
+  const plan=shotSystem.plan({player:{rating:72+(i%25),role,vx:(rng()-.5)*180,vy:(rng()-.5)*180},charge,distance,maximumUsefulDistance:620,lateralOffset:(rng()-.5)*520,fieldHalfHeight:410,bodyAlignment:rng()*2-1,pressure,goalkeeperCoverage:rng(),goalkeeperRush:keeperRush,targetY:420+(rng()-.5)*70,goalHalfHeight:54,rng});
   shotCounts[plan.type]++;shotScenarios++;
   assert.ok(Number.isFinite(plan.speed)&&Number.isFinite(plan.targetY)&&Number.isFinite(plan.quality));
   assert.ok(plan.speed>=400&&plan.speed<=825.001);
