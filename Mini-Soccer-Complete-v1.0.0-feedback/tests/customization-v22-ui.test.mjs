@@ -28,6 +28,12 @@ test("camisetas nacionales y MSC son mutuamente exclusivas",()=>{
   assert.match(transform,/if\(!equipped\)onNationalKitEquip\(\)/);
 });
 
+test("temas HUD modifican la paleta real de la interfaz y no solo su preview",()=>{
+  assert.match(transform,/\"--lime\":hudTheme\?\.preview\.secondary/);
+  assert.match(transform,/\"--panel\":hudTheme\?\.preview\.primary/);
+  assert.match(transform,/hud-theme-/);
+});
+
 test("los cosméticos visuales están conectados al gameplay sin modificar motores físicos",()=>{
   assert.match(transform,/cosmeticBall\?\.preview\.primary/);
   assert.match(transform,/cosmeticTrail\.preview\.primary/);
