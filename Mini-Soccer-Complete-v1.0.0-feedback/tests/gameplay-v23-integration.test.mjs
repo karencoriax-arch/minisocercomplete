@@ -13,6 +13,11 @@ test("v2.3 conecta ShotSystem al jugador y a la IA",()=>{
   assert.match(page,/dataset\.shotType/);
 });
 
+test("telemetría de tiro solo informa un tipo mientras la pelota sigue en SHOT",()=>{
+  assert.match(page,/dataset\.shotType=ballFlight\.current\.type===?\"SHOT\"\?\(activeShotFlight\.current\?\.type\?\?\"NORMAL\"\):\"NONE\"/);
+  assert.doesNotMatch(page,/dataset\.shotType=activeShotFlight\.current\?\.type\?\?\"NONE\"/);
+});
+
 test("la vaselina tiene ventana aérea pero el arquero sigue pudiendo intervenir",()=>{
   assert.match(page,/activeShotFlight\.current\?\.type===?\"CHIP\"/);
   assert.match(page,/p\.role!==\"ARQ\"/);
