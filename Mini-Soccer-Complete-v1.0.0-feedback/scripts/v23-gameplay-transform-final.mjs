@@ -50,7 +50,15 @@ const staleTelemetry='c.dataset.shotType=activeShotFlight.current?.type??"NONE";
 const liveTelemetry='c.dataset.shotType=ballFlight.current.type==="SHOT"?(activeShotFlight.current?.type??"NORMAL"):"NONE";';
 if(page.includes(staleTelemetry)){
   page=page.replace(staleTelemetry,liveTelemetry);
-  writeFileSync(pagePath,page);
 }else if(!page.includes(liveTelemetry)){
   throw new Error("v2.3 final wrapper could not verify live shot telemetry");
 }
+
+// Temporary preview-only browser diagnostics. This import is intentionally kept
+// out of production until the v2.3 match-mount crash is identified and fixed.
+const diagnosticsImport='import "./client-diagnostics";';
+if(!page.includes(diagnosticsImport)){
+  page=page.replace('"use client";','"use client";\n\n'+diagnosticsImport);
+}
+if(!page.includes(diagnosticsImport))throw new Error("v2.3 diagnostics import was not applied");
+writeFileSync(pagePath,page);
