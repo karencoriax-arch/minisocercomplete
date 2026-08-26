@@ -11,6 +11,14 @@ test("carga corta, media y larga producen colocado, normal y potente",()=>{
   assert.equal(resolveShotType({charge:.9,distance:260,maximumUsefulDistance:620,goalkeeperRush:.1,pressure:.2}),"POWER");
 });
 
+test("los límites exactos de carga no dejan huecos entre tipos de tiro",()=>{
+  const args={distance:260,maximumUsefulDistance:620,goalkeeperRush:.1,pressure:.2};
+  assert.equal(resolveShotType({...args,charge:.34}),"PLACED");
+  assert.equal(resolveShotType({...args,charge:.3401}),"NORMAL");
+  assert.equal(resolveShotType({...args,charge:.7599}),"NORMAL");
+  assert.equal(resolveShotType({...args,charge:.76}),"POWER");
+});
+
 test("la vaselina solo aparece con arquero adelantado y contexto razonable",()=>{
   assert.equal(resolveShotType({charge:.46,distance:220,maximumUsefulDistance:620,goalkeeperRush:.82,pressure:.25}),"CHIP");
   assert.notEqual(resolveShotType({charge:.46,distance:220,maximumUsefulDistance:620,goalkeeperRush:.35,pressure:.25}),"CHIP");
