@@ -4,7 +4,6 @@ import { readFileSync } from "node:fs";
 import { PASS_PHYSICS, PASS_TYPE_TUNING } from "../app/pass-system.ts";
 
 const page=readFileSync(new URL("../app/page.tsx",import.meta.url),"utf8");
-const transform=readFileSync(new URL("../scripts/v23-gameplay-transform.mjs",import.meta.url),"utf8");
 
 test("v2.3 conecta ShotSystem al jugador y a la IA",()=>{
   assert.match(page,/MSC_V23_GAMEPLAY/);
@@ -20,11 +19,11 @@ test("la vaselina tiene ventana aérea pero el arquero sigue pudiendo intervenir
   assert.match(page,/airborneUntil/);
 });
 
-test("rebotes usan física separada y dejan de multiplicar velocidad por constantes inline",()=>{
+test("rebotes usan física separada y el runtime final no conserva multiplicadores inline",()=>{
   assert.match(page,/resolveRebound/);
   assert.match(page,/postNormal/);
-  assert.doesNotMatch(transform,/b\.vy\*=-\.78/);
-  assert.doesNotMatch(transform,/b\.vx\*=-\.78/);
+  assert.doesNotMatch(page,/b\.vy\*=-\.78/);
+  assert.doesNotMatch(page,/b\.vx\*=-\.78/);
 });
 
 test("pases públicos tienen parámetros válidos para 3v3 y 4v4",()=>{
